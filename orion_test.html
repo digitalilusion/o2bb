@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+	<!-- 
+	FIWARE Orion Context Broker adapter to Backbone JS Sync Example
+	MIT License
+	Digitalilusion S.L. 2015
+	-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Digitalilusion S.L.">
+		<title>Orion 2 Backbone Sync Example</title>
+
+		<!-- Bootstrap CSS -->
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<style type="text/css" media="screen">
+
+			p, li {
+				color: #888;
+			}
+			strong {
+				color: #444;
+			}
+			.results
+			{
+				border: solid 1px gray;
+				height: 400px;
+				border-radius: 5px;
+				margin-bottom: 20px;
+				overflow: auto;
+				padding:10px;
+				font-family: Courier;
+			}
+			.footer
+			{
+				margin-bottom: 30px;
+				font-size: 12px;
+				text-align: center;
+			}
+
+			
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="text-center">
+						<h1>Orion 2 Backbone</h1>	
+					</div>
+					
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 col-md-12 col-lg-12">
+					<h2>Introduction</h2>
+
+					<ul>
+						<li><a href="http://catalogue.fiware.org/enablers/publishsubscribe-context-broker-orion-context-broker">FIWARE Orion Context Broker</a> (aka Orion) is a General Enabler which it provides object allocation, query and Pub/Sub operations. Formally, Orion implements a NGSI10/NGSI9 specification</li>
+						<li><a href="http://backbonejs.org/">BackboneJS</a> is a JavaScript framework which enables us build rich web apps.</li>
+						<li><a href="https://github.com/digitalilusion/o2bb">Orion 2 Backbone</a> (aka O2BB) is "the glue" between these entities. <br>With O2BB we can integrate our project easily and fast with <a href="http://fiware.org">FIWARE</a>'s Orion</li>
+					</ul>
+					<p>
+						We'll show you how to integrate Orion with your JavaScript/Backbone project.
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 col-md-12 col-lg-12">
+					<h2>Usage</h2>
+					<p>O2BB is pretty straightforward</p>
+					<ol>
+						<li>
+							<p>
+							Include the <kbd>orion.js</kbd> file after Underscore & Backbone includes
+							</p>
+							<p>
+								<code>
+									&lt;script src="/underscore.js" charset="utf-8"&gt;&lt;/script&gt;<br>
+									&lt;script src="/backbone.js" charset="utf-8"&gt;&lt;/script&gt;<br>
+									&lt;script src="/orion.js" charset="utf-8"&gt;&lt;/script&gt;
+								</code>
+							</p>
+						</li>
+						<li>
+							<p>
+								If you want to create a Backbone Model, you must extend it from <kbd>Backbone.OrionModel</kbd>. In case of a collection, <kbd>Backbone.OrionCollection</kbd>
+							</p>
+							<p>
+								Due to Orion functionality, <strong>you must set up a "type" prototype object</strong><br>
+								If your access to Orion require an access token, you also must set up the "token" prototype object
+							</p>
+							<p>
+								Example: <br>
+								<code>
+									var SensorModel = Backbone.OrionModel({type: "sensor", token: "mytoken", urlRoot: "/orionEP"});<br>
+									var SensorModel = Backbone.OrionCollection({model: SensorModel, token: "mytoken", urlRoot: "/orionEP"});
+								</code>
+							</p>
+						</li>
+						<li>
+							<p>Just it!</p>
+							<p>
+								You can view how works in the above demonstration
+							</p>
+						</li>
+					</ol>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="text-center">
+						<h2>Live example</h2>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<h3>Scenary</h3>
+				</div>
+			</div>
+			<div class="row">
+				
+			
+				<div class="col-sm-6 col-md-6 col-lg-6">
+					
+					
+					<p>
+						This example connects to <strong>Orion Context Broker Test Bed</strong>. That instance runs in the following address <kbd>http://orion.lab.fiware.org:1026</kbd> and it's public but you need an <strong>access token</strong>.
+					</p>
+					<p>
+						You can get your <strong>access token</strong> following <a href="https://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/Publish/Subscribe_Broker_-_Orion_Context_Broker_-_Quick_Start_for_Programmers">this instructions <i class="fa fa-external-link"></i></a>
+					</p>
+					<div>
+						<p>Once you get the access token, copy&paste here and/or save in Local Storage (if available)</p>
+						<form class="form-inline">
+							<div class="form-group">
+								<input class="form-control accessToken" type="text">		
+							</div>
+							<button style="display:none;" class="btn btn-primary" id="bSaveLS"><i class="fa fa-save"></i> Save in LS</button>
+							<p class="access-token-status"></p>
+						</form>
+						
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-6 col-lg-6">
+					<p>
+					We'll use the <kbd>SensorModel</kbd> and <kbd>SensorCollection</kbd> defined before.
+					</p>
+					<p>
+						Because of Orion Test Bed instance does not implement <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>, we can't talk directly with it.<br>
+						For this reason, we use a simple NodeJS server that acts as HTTP proxy. Any request made to <kbd>/orion</kbd> is redirect to <kbd>http://orion.lab.fiware.org:1026</kbd>. In this manner, we make all request to the same domain.
+					</p>
+					<p>
+						<kbd>SendorModel</kbd> has the following attributes: <kbd>place</kbd>, <kbd>temperature</kbd> and <kbd>battery</kbd>.
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<h3>Actions</h3>
+					<div>
+						<form>
+							<button id="bReadAll" class="btn btn-success">Get all Sensors</button>	
+						</form>
+						<br>
+						<form role="form" class="form-inline">
+							<select class="form-control select-ids set">
+								<option value="">(new)</option>
+							</select>
+							<input class="form-control place" placeholder="place">
+							<input class="form-control temperature" placeholder="temperature">
+							<input class="form-control battery" placeholder="battery">
+							<button id="bSet" class="btn btn-success">Set sensor info</button>	
+						</form>
+						<br>
+						<form role="form" class="form-inline">
+							<select class="form-control select-ids delete">
+								
+							</select>
+							<button id="bDelete" class="btn btn-danger">Delete sensor</button>	
+						</form>
+						
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<h3>Results</h3>
+					<div class="results">
+						
+					</div>
+					<div>
+						<button id="bClear" class="btn btn-default">Clear</button>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<hr>
+				<div class="footer">
+					MIT License<br>
+					<a href="http://digitalilusion.com">Digitalilusion S.L.</a> &copy; 2015	
+				</div>
+				
+			</footer>
+		</div>
+
+		<!-- jQuery -->
+		<script src="//code.jquery.com/jquery.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+		<!-- Our Orion 2 Backbone adapter -->
+		<script type="text/javascript" src="/html/orion.js"></script>
+		<script type="text/javascript">
+		
+		console.log("O2BB Test loaded!");
+		function writeResult(s)
+		{
+			$(".results").append(s+ "<br>");
+		}
+		function reset()
+		{
+			writeResult("removing sensors");
+			$(".select-ids .sensor-id").remove();
+		}
+		function addSensor(s)
+		{
+			writeResult("- adding sensor #" + s.id);
+			$(".select-ids").append("<option class='sensor-id' value='"+ s.id +"'>"+ s.id +"</option>")
+
+		}
+		function destroyed(s)
+		{
+			writeResult("- deleted sensor #" + s.id);
+			$(".select-ids option[value='"+ s.id + "']").remove();
+		}
+		function getNewID()
+		{
+			if (col == null)
+			{
+				return null;
+			}
+			maxID = 0;
+			for (var i=0; i < col.models.length; i++)
+			{
+				if (col.models[i].id > maxID)
+				{
+					maxID = col.models[i].id;
+				}
+			}
+			maxID++;
+			return maxID;
+		}
+
+		// Backbone Model
+		var SensorModel = Backbone.OrionModel.extend({
+			urlRoot: "/orion",
+			type: "sensor"
+		});
+
+		var SensorCollection = Backbone.OrionCollection.extend({
+			model: SensorModel,
+			urlRoot: "/orion"
+		});
+		var col = null;
+		$(document).ready(function  () {
+			writeResult("O2BB Test loaded!");
+			$(".accessToken").on("change", function  () {
+				console.log("Access token updated!");
+				var v = $(".accessToken").val().trim();
+				SensorModel.prototype.token = v;
+				SensorCollection.prototype.token = v;
+				$(".access-token-status").html("");
+			});
+			$("#bClear").on("click", function  () {
+				$(".results").html("");
+			});
+			// Check support LS
+			if ('localStorage' in window)
+			{
+				$("#bSaveLS").show();
+				var v = localStorage.getItem("orion-access-token");
+				if ( v != null)
+				{
+					$(".accessToken").val(v);
+					$(".accessToken").trigger("change");
+				}
+
+				$("#bSaveLS").on("click", function  (e) {
+					e.preventDefault();
+					localStorage.setItem("orion-access-token", $(".accessToken").val().trim());
+					$(".access-token-status").html("Access token saved in Local Storage");
+				});
+			}
+			// Actions
+			$("#bReadAll").on("click", function  (e) {
+				e.preventDefault();
+				if ( col == null)
+				{
+					col = new SensorCollection();
+					col.on("add", function(m){
+						addSensor(m);
+					});
+					col.on("reset", function() {
+						reset();
+					});
+
+				}
+				col.reset();
+				col.fetch({'error': function(e,a){ 
+					writeResult("error! => " + a.status + " " + a.responseText);
+				}});
+			});
+			$("#bDelete").on("click", function(e){
+				e.preventDefault();
+				var s = $(".select-ids.delete").val();
+				if (s == null)
+				{
+					writeResult("Nothing to delete");
+					return;
+				}
+				var m = col.get(s);
+				m.destroy({success: function(m){
+					destroyed(m);
+				}, error: function(e,a){ 
+					
+					writeResult("error! => " + a.status + " " + a.responseText);
+				}, 'wait': true});
+			});
+			$("#bSet").on("click", function(e){
+				e.preventDefault();
+				var id = $(".select-ids.set").val();
+				var place = $(".place").val().trim();
+				var temperature = $(".temperature").val().trim();
+				var battery = $(".battery").val().trim();
+				var m = null;
+				if (id == "")
+				{
+					// Set new
+					id = getNewID();
+					if (id == null)
+					{
+						writeResult("First, fetch all sensors");
+						return;
+					}
+					col.create({'id': id, 'place': place, 'temperature': temperature, 'battery': battery}, {error: function(e,a){ 
+							writeResult("error! => " + a.status + " " + a.responseText);
+					}});
+				}
+				else
+				{
+					writeResult("- update sensor #" + id);
+					m = col.get(id);
+					m.set({'place': place, 'temperature': temperature, 'battery': battery});
+					m.save();
+				}
+			});
+			$(".select-ids.set").on("change", function(e){
+				var v = $(this).val();
+				var m = col.get(v);
+				var attrs = m.attributes;
+				$(".place").val(attrs.place);
+				$(".temperature").val(attrs.temperature);
+				$(".battery").val(attrs.battery);
+			});
+
+		});
+		</script>
+	</body>
+</html>
