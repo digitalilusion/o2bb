@@ -1,0 +1,30 @@
+{
+  "name": "o2bb",
+  "version": "0.1.0",
+  "homepage": "https://github.com/digitalilusion/o2bb",
+  "authors": [
+    "Chema <chema@digitalilusion.com>"
+  ],
+  "description": "FIWARE Orion Context Broker to Backbone Sync",
+  "main": "orion.js",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "fiware",
+    "orion",
+    "general",
+    "enabler",
+    "javascript",
+    "backbone",
+    "sync"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
